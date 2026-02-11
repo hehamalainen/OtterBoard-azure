@@ -1,3 +1,5 @@
+const fetch = typeof globalThis.fetch === "function" ? globalThis.fetch : require("node-fetch");
+
 const buildUrl = (endpoint, deployment, path, apiVersion) =>
   `${endpoint.replace(/\/$/, "")}/openai/deployments/${deployment}/${path}?api-version=${apiVersion}`;
 

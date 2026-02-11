@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "@azure/cosmos": "^3.17.0"
+    "@azure/cosmos": "^3.17.0",
+    "node-fetch": "^2.7.0"
   }
 }
