@@ -1,0 +1,7 @@
+{
+  "name": "OtterBoard",
+  "description": "Your friendly AI assistant that transforms chaotic whiteboard photos and sticky notes into structured strategic roadmaps.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
