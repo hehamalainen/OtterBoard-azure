@@ -16,7 +16,7 @@ module.exports = async function (context, req) {
     if (req.method === "GET") {
       const hasEmail = Boolean(user.email);
       const querySpec = {
-        query: `SELECT * FROM c WHERE c.owner = @owner${hasEmail ? " OR ARRAY_CONTAINS(c.collaborators, @email, true)" : ""} ORDER BY c.updatedAt DESC`,
+        query: `SELECT * FROM c WHERE c.owner = @owner${hasEmail ? " OR ARRAY_CONTAINS(c.collaborators, @email, true)" : ""}`,
         parameters: [
           { name: "@owner", value: user.id },
           ...(hasEmail ? [{ name: "@email", value: user.email }] : [])
@@ -55,7 +55,7 @@ module.exports = async function (context, req) {
 
     context.res = errorResponse(405, "Method not allowed");
   } catch (error) {
-    context.log.error("Boards API error", error);
-    context.res = errorResponse(500, "Server error");
+    context.log.error("Boards API error", error.message, error.stack);
+    context.res = errorResponse(500, error.message || "Server error");
   }
 };
