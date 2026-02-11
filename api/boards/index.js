@@ -1,10 +1,20 @@
 const { randomUUID } = require("crypto");
-const { getContainer } = require("../shared/cosmos");
 const { getUser } = require("../shared/auth");
 const { jsonResponse, errorResponse } = require("../shared/http");
 
+let getContainer;
+try {
+  getContainer = require("../shared/cosmos").getContainer;
+} catch (loadErr) {
+  getContainer = null;
+}
+
 module.exports = async function (context, req) {
   try {
+    if (!getContainer) {
+      context.res = errorResponse(500, "Cosmos module failed to load");
+      return;
+    }
     const user = getUser(req);
     if (!user) {
       context.res = errorResponse(401, "Unauthorized");
