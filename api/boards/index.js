@@ -10,6 +10,10 @@ try {
 }
 
 module.exports = async function (context, req) {
+  if (req.headers["x-ping"]) {
+    context.res = { status: 200, body: "pong" };
+    return;
+  }
   try {
     if (!getContainer) {
       context.res = errorResponse(500, "Cosmos module failed to load");
