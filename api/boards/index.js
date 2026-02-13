@@ -1,20 +1,28 @@
-const { randomUUID } = require("crypto");
-const { getUser } = require("../shared/auth");
-const { jsonResponse, errorResponse } = require("../shared/http");
-
-let getContainer;
-try {
-  getContainer = require("../shared/cosmos").getContainer;
-} catch (loadErr) {
-  getContainer = null;
-}
-
 module.exports = async function (context, req) {
+  // 1. ABSOLUTELY MINIMAL PING (Zero Dependencies)
   if (req.headers["x-ping"]) {
-    context.res = { status: 200, body: "pong" };
+    context.res = {
+      status: 200,
+      body: "pong-v3",
+      headers: { "Content-Type": "text/plain" }
+    };
     return;
   }
+
   try {
+    // 2. LAZY LOADING (Try to load dependencies one by one)
+    const { randomUUID } = require("crypto");
+    const { getUser } = require("../shared/auth");
+    const { jsonResponse, errorResponse } = require("../shared/http");
+
+    let getContainer;
+    try {
+      getContainer = require("../shared/cosmos").getContainer;
+    } catch (loadErr) {
+      context.log.error("Failed to load cosmos module", loadErr);
+      context.res = { status: 500, body: `Init Error: Cosmos module failed to load: ${loadErr.message}` };
+      return;
+    }
     if (!getContainer) {
       context.res = errorResponse(500, "Cosmos module failed to load");
       return;
