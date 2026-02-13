@@ -80,6 +80,6 @@ module.exports = async function (context, req) {
     context.res = errorResponse(405, "Method not allowed");
   } catch (error) {
     context.log.error("Board API error", error);
-    context.res = errorResponse(500, "Server error");
+    context.res = errorResponse(500, "Board API error", error);
   }
 };

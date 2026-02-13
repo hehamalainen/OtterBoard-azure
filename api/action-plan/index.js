@@ -67,6 +67,6 @@ Return ONLY valid JSON, no markdown formatting.
     context.res = jsonResponse(200, plan);
   } catch (error) {
     context.log.error("Action plan API error", error);
-    context.res = errorResponse(500, error.message || "Server error");
+    context.res = errorResponse(500, "Action plan API error", error);
   }
 };

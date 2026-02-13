@@ -54,6 +54,6 @@ RULES:
     context.res = jsonResponse(200, { text: responseText.trim() });
   } catch (error) {
     context.log.error("Chat API error", error);
-    context.res = errorResponse(500, error.message || "Server error");
+    context.res = errorResponse(500, "Chat API error", error);
   }
 };

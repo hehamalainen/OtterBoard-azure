@@ -69,6 +69,6 @@ Return ONLY valid JSON, no markdown formatting.
     context.res = jsonResponse(200, { themes: parsedThemes });
   } catch (error) {
     context.log.error("Reframe API error", error);
-    context.res = errorResponse(500, error.message || "Server error");
+    context.res = errorResponse(500, "Reframe API error", error);
   }
 };

@@ -5,11 +5,15 @@ let client;
 const getContainer = () => {
   const connectionString = process.env.COSMOS_CONNECTION_STRING;
   if (!connectionString) {
-    throw new Error("COSMOS_CONNECTION_STRING is not set");
+    throw new Error("Environment variable COSMOS_CONNECTION_STRING is missing in Azure Configuration.");
   }
 
   if (!client) {
-    client = new CosmosClient(connectionString);
+    try {
+      client = new CosmosClient(connectionString);
+    } catch (err) {
+      throw new Error(`Failed to initialize CosmosClient: ${err.message}`);
+    }
   }
 
   const databaseId = process.env.COSMOS_DATABASE_ID || "boards";

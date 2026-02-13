@@ -224,6 +224,6 @@ RULES:
     context.res = errorResponse(400, "Invalid mode.");
   } catch (error) {
     context.log.error("Analyze API error", error);
-    context.res = errorResponse(500, error.message || "Server error");
+    context.res = errorResponse(500, "Analyze API error", error);
   }
 };
